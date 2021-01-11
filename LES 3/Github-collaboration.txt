@@ -1,0 +1,5 @@
+Github 
+https://devblogs.microsoft.com/visualstudio/announcing-the-release-of-the-git-experience-in-visual-studio/
+https://docs.microsoft.com/en-us/visualstudio/ide/git-with-visual-studio?view=vs-2019
+invite collaborators:
+https://docs.github.com/en/free-pro-team@latest/github/setting-up-and-managing-your-github-user-account/inviting-collaborators-to-a-personal-repository
