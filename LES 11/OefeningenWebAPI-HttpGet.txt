@@ -1,0 +1,36 @@
+Oefening 1: SubjectsController maken:
+
+Voeg onder Controllers folder een nieuwe Empty API Controller
+ toe voor Subjects
+met naam SubjectsController
+met hierin 2 Action Methods (HttpGet):
+
+- GetSubjects() -> geeft alle Subjects terug uit de database
+- GetSubject(Guid id) 
+     -> geeft een Subject terug aan de hand van de Id
+
+Oefening 2: Zelfde voor StudentSubjectsController
+
+Oefening 3:
+-> 1)Voeg nu ook eens Course model toe
+(ook in database)
+een Course bevat meerdere Subjects
+-en een Subject kan in meerdere Courses worden gegeven
+ (many-to-many tussen Course en Subject)
+- Zorg dat er in de database (2 tabellen) de nodige gegevens komen
+- (zorg voor een CourseConfiguration die bv 2 Courses in de db
+ zal toevoegen en een aantal subjects toewijzen aan de courses
+
+
+-2) Maak de nodige Contract(s)
+    Maak (I)CourseRepository en (I)CourseSubjectRepository interfaces en 
+    classes aan in de juiste projecten
+-4) Pas de (I)RepositoryManager aan om eveneens een Repository voor 
+    Courses en CourseSubjects bij te houden
+-5) Voeg een CoursesController en CourseSubjectsController toe
+    in de Web API (StudentSubjects) en action methodes om: 
+    in CoursesController:
+     - alle Courses op te vragen
+     - een Course via zijn Id (Guid) op te vragen
+    in CourseSubjectsController:
+     -alle CourseSubjects op te vragen
