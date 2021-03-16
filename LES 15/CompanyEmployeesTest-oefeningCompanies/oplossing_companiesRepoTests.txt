@@ -1,0 +1,142 @@
+      #region CompaniesRepoTests//COMPANIES TESTS
+        [Test]
+        public void GetAllCompanies_ShouldReturnAllCompaniesFromContext()
+        {
+            using (var factory = new TestRepositoryContextFactory())
+            {
+                using (var context = factory.CreateContext())
+                {
+                    var countCompaniesInDb = context.Companies.Count();
+
+                    var repository = new RepositoryManager(context);
+                    var comp = repository.Company.GetAllCompanies(false);
+                    Assert.IsNotNull(comp);
+                    Assert.AreEqual(countCompaniesInDb, comp.Count());
+                }
+            }
+        }
+        [Test]
+        public void GetCompany_ShouldReturnCompany()
+        {
+            //Arrange
+            Guid testCompanyId;
+            using (var factory = new TestRepositoryContextFactory())
+            {
+                using (var context = factory.CreateContext())
+                {
+                    var testCompany = context.Companies.FirstOrDefault();
+                    testCompanyId = testCompany.Id;
+                    var repository = new RepositoryManager(context);
+                    //Act
+                    var comp = repository.Company.GetCompany(testCompanyId, false);
+                    //Assert
+                    Assert.IsNotNull(comp);
+                    Assert.AreEqual(testCompanyId, comp.Id);
+                }
+            }
+        }
+        [Test]
+        public void CreateCompany_ShouldAddNewCompanyToContext()
+        {
+            using (var factory = new TestRepositoryContextFactory())
+            {
+                //Arrange
+                int count = 0;
+                Guid testCompanyId;
+                using (var context = factory.CreateContext())
+                {
+                    testCompanyId = Guid.NewGuid();
+                    Company testCompany = new Company()
+                    {
+                        Id = testCompanyId,
+                        Name = "Test bedrijf",
+                        Country = "Test land",
+                        Description = "Test beschrijving",
+                        Size = CompanySize.Small,
+                        LaunchDate = DateTime.Today,
+                        Address = "Test adres"
+                    };
+                    count = context.Companies.Count();
+                    var repository = new RepositoryManager(context);
+                    //Act
+                    repository.Company.CreateCompany(testCompany);
+                    repository.Save();
+                }
+                //Assert
+                using (var context = factory.CreateContext())
+                {
+                    Assert.AreEqual(count + 1, context.Companies.Count());
+                    var addedCompany = context.Companies.FirstOrDefault(e => e.Id == testCompanyId);
+                    Assert.IsNotNull(addedCompany);
+                    Assert.AreEqual(testCompanyId, addedCompany.Id);
+                }
+            }
+        }
+        [Test]
+        public void SaveChangesGetCompanyTrackChangesTrue_ShouldChangeCompanyInContext()
+        {
+            using (var factory = new TestRepositoryContextFactory())
+            {
+                //Arrange          
+                Guid testCompanyId;
+                Company testCompany;
+                using (var context = factory.CreateContext())
+                {
+                    var repository = new RepositoryManager(context);
+                    var firstCompany = context.Companies.FirstOrDefault();
+                    testCompanyId = firstCompany.Id;
+                    //Act
+                    testCompany = repository.Company.GetCompany(testCompanyId, true);
+                    testCompany.Name = "gewijzigde naam";
+                    testCompany.Size = CompanySize.Big;
+                    testCompany.LaunchDate = new DateTime(2021, 3, 15);
+                    testCompany.Description = "gewijzigde beschrijving";
+                    testCompany.Country = "gewijsigd land";
+                    testCompany.Address = "gewijzigd adres";
+
+                    repository.Save();
+                }
+                //Assert
+                using (var context = factory.CreateContext())
+                {
+                    var changedCompany = context.Companies.Include(c => c.Employees).FirstOrDefault(e => e.Id == testCompanyId);
+                    Assert.IsNotNull(changedCompany);
+                    Assert.AreEqual(testCompany.Id, changedCompany.Id);
+                    Assert.AreEqual(testCompany.Name, changedCompany.Name);
+                    Assert.AreEqual(testCompany.Size, changedCompany.Size);
+                    Assert.AreEqual(testCompany.LaunchDate, changedCompany.LaunchDate);
+                    Assert.AreEqual(testCompany.Description, changedCompany.Description);
+                    Assert.AreEqual(testCompany.Country, changedCompany.Country);
+                    Assert.AreEqual(testCompany.Address, changedCompany.Address);
+                }
+            }
+
+        }
+        [Test]
+        public void DeleteCompany_ShouldRemoveCompanyFromContext()
+        { 
+            using (var factory = new TestRepositoryContextFactory())
+            {
+                //Arrange          
+                Guid testCompanyId;
+                int count;
+                using (var context = factory.CreateContext())
+                {
+                    count = context.Companies.Count();
+                    var repository = new RepositoryManager(context);
+                    var firstCompany = context.Companies.FirstOrDefault();
+                    testCompanyId = firstCompany.Id;
+                    //Act
+                    repository.Company.DeleteCompany(firstCompany);
+
+                    repository.Save();
+                }
+                //Assert
+                using (var context = factory.CreateContext())
+                {
+                    Assert.AreEqual(count-1, context.Companies.Count());
+                    Assert.IsFalse(context.Companies.Where(c => c.Id == testCompanyId).Any());
+                }
+            }
+        }
+        #endregion //COMPANIES TESTS
