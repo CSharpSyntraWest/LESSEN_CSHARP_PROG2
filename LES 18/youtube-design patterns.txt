@@ -1,0 +1,27 @@
+Singleton Pattern – Design Patterns (ep 6)
+https://www.youtube.com/watch?v=hUE_j6q0LTQ
+https://dotnettutorials.net/lesson/singleton-design-pattern/
+
+C# in Depth: Implementing the Singleton Pattern in C#
+https://csharpindepth.com/articles/singleton
+
+C# volatile keyword: https://www.sudhanshutheone.com/posts/double-check-lock-csharp
+
+Factory Method
+https://www.youtube.com/watch?v=EcFVTgRHJLM
+https://dotnettutorials.net/lesson/factory-method-design-pattern-csharp/
+
+Abstract Factory
+https://www.youtube.com/watch?v=v-GiuMmsXj4
+https://dotnettutorials.net/lesson/abstract-factory-design-pattern-csharp/
+
+Proxy
+https://www.youtube.com/watch?v=NwaabHqPHeM
+https://dotnettutorials.net/lesson/proxy-design-pattern/
+
+Façade
+https://www.youtube.com/watch?v=K4FkHVO5iac
+https://dotnettutorials.net/lesson/facade-design-pattern/
+
+Observer
+https://www.youtube.com/watch?v=_BpmfnqjgzQ
