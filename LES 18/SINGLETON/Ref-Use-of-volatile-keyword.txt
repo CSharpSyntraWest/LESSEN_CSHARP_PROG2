@@ -1,0 +1,1 @@
+https://www.infoworld.com/article/3229360/how-to-use-the-volatile-keyword-in-c.html
